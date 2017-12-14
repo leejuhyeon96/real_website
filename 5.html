@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://lee-bh.github.io/171130-snack-game/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<link rel="stylesheet" href="./lee-bh.github.io_files/normalize.css">
+	<style>
+		header{font-weight:300;font-size:40px;text-align:center;margin-top:80px;margin-bottom: -120px;}
+		footer{text-align:center;font-weight: 100;color:black;font-size:12px;margin-top: 30px;}
+
+
+		#gameArea{width:800px; height:426px; background: url('stage4_1.png' ); position: absolute; left:calc(50% - 200px); top:100px;animation: bMove 4s linear; background-size: 1200px;
+			animation-fill-mode: forwards;
+		}
+
+		@keyframes bMove{
+			0%{ background-position: 0 0px;}
+			100%{ background-position:-385px 0px;}
+		}
+		#gameStart{position: absolute;left:50%;top:120px;}
+		#arrow{width:30px; height:30px; border-radius: 50%;background:white;left:calc(50% - 25px); position: absolute;top:200px; animation: aMove 1s cubic-bezier(.27,.53,.77,.49); animation-fill-mode: forwards;}
+
+		@keyframes aMove{
+			0%{}
+			15%{ top:60px; width:40px;}
+			100%{top:125px; width:10px; height:10px; left:calc(50% - 5px);}
+		}
+
+		#markT{ color:white; font-size: 2em; width:60px; height:60px; background: pink;left:50px;border-radius: 50%; text-align: center; line-height: 60px;border:3px solid white; box-shadow: 0px 0px 8px white; position: absolute;top:100px; transition: all 0.5s; }
+		#totalD{ width:60px; height:30px; background: black; opacity: 0.4 ;font-size:25px;text-align: center;color:white;padding-top: 7px;}
+	</style>
+</head>
+<header>
+	하트 다트 게임
+</header>
+<body>
+	<div id="gameArea" style="animation-play-state: paused;">
+		<button id="gameStart">start</button>
+		<div id="arrow" style="animation-play-state: paused; display: none;"></div>
+		<div id="markT" style="opacity: 0; display: none;"></div>
+		<div id="totalD"></div>
+	</div>
+
+
+
+
+
+	<script>
+		gameArea.style.animationPlayState = "paused";
+		arrow.style.animationPlayState = "paused";
+		arrow.style.display = "none";
+		markT.style.opacity = 0;
+		markT.style.display = "none";
+
+		var t;
+		var time = 0;
+		var mark = 0;
+		var total = 0;
+
+
+		gameStart.onclick = function(){
+			
+			gameArea.style.animationPlayState = "running";
+			gameStart.style.display = "none";
+			arrow.style.display = "block";
+			arrow.style.animationPlayState = "paused";
+			t = setInterval(calMark,50);
+		}
+		
+		arrow.onclick = function(){
+			arrow.style.animationPlayState = "running";
+		}
+		
+		arrow.addEventListener("animationend",checkMark);
+		
+		function checkMark(){
+			gameArea.style.animationPlayState = "paused";
+			mark = 10 - Math.abs(parseInt((66 - time)/2));
+			console.log(mark);
+			markT.innerHTML = mark;
+			markT.style.display = "block";
+			markT.style.opacity = 1;
+
+			total+= mark; mark = 0;
+			totalD.innerHTML = total;
+			clearInterval(t); time = 0;
+			setTimeout(function(){
+				rewindAnimation(arrow);
+  				arrow.style.animationPlayState = "paused";
+
+  				rewindAnimation(gameArea);
+  				gameArea.style.animationPlayState = "running"; 
+  				t = setInterval(calMark,50);
+			},1000);
+		}
+
+		function rewindAnimation(t){
+			t.style.animationFillMode = "backwards";
+			t.style.animation = 'none';
+  			t.offsetHeight; 
+  			t.style.animation = null;
+		}
+
+		function calMark(){
+			time+=1;
+		}
+	</script>
+
+	<a href="./6.html">
+ <img src="ending.png" style="width:100px;margin-left:660px;margin-top:610px;">
+ </a>
+</body>
+
+<footer>
+	HKNU design / Digital publishing / Lee juhyeon
+</footer>
+</html>

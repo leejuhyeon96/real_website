@@ -1,0 +1,111 @@
+<idoctype html>
+
+<head>
+	<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+	<style>
+	header{font-weight:300;font-size:40px;text-align:center;margin-bottom: 0px;margin-top: 50px;}
+	body{margin: 0 auto; width:600px;font-weight:300;}
+	img{width:100%;margin-bottom:10px;}
+	nav{width:150px;height:100px;float:right;margin-top:-140px;margin-right:-380px;}
+	
+	footer{text-align:center;font-weight: 100;color:black;font-size:12px;margin-top: 25px;}
+	.balloon{
+			width:50px; height:400px; 
+			background-repeat:no-repeat;
+			animation: bMove 8s linear;
+		}
+
+	@keyframes bMove{
+		0%{ background-position: 0 200px; opacity:0;}
+		20%{opacity:1;}
+		80%{ opacity:1; }
+		100%{ background-position:0 0;opacity:0;}
+		}
+	html {font-family: 'Spoqa Han Sans', 'Sans-serif'; }
+	</style>
+</head>
+<header>
+<div id="time" style="font-size: 14px; margin-left: -1080px;margin-top:-35px;"></div>
+<div id="displayMark" style="font-size: 14px; margin-left: -1380px;margin-top:0px;">0<br><br><br></div>
+	엔딩
+</header>
+
+<img src="ending.gif" style="width:800px;margin-left:-100px;">
+<body>
+	<a href="./main.html">
+ <img src="replay.png" style="width:100px;margin-left:250px;margin-top:50px;">
+ </a>
+	<script>
+	var timeD = setInterval(checkTime,100);
+	setTimeout(result,20000);
+	var game = setInterval(attachBalloon,300); //요소 양(갯수)
+
+	var a = 0;
+	var mark = 0;
+	function checkTime(){
+		a = a + 1;
+		console.log(a);
+		time.innerHTML = "/ 하트 잡기 미니게임 / 진한 하트만 잡아봐! "+ (199 - a) / 10 + " 초 남았어~";
+	}
+
+	function result(){
+		alert("Game Over-♥ 당신의 점수는 "+mark+"점입니다.");
+		clearInterval(game);
+		clearInterval(timeD);
+	}
+
+	function attachBalloon(){
+		var t = document.createElement("div");
+		t.setAttribute("class","balloon"); 
+		t.style.position = "absolute"; 
+		
+		var color = randomBH(1,2);
+		t.style.background = "url('h_" + color + ".png') no-repeat";
+		
+		t.style.backgroundSize = "70% auto";
+		t.style.top = randomBH(0,window.innerHeight - 300) + "px";
+		t.style.left = randomBH(0,window.innerWidth) + "px";
+		t.addEventListener("animationend",remove);
+		t.onclick = function(){
+			markUp(this, color);
+		}
+		document.body.appendChild(t);		
+	}
+	
+	function markUp(t, color)
+	{
+		var markText = "";
+		if(color == 1){
+			mark -= 300;
+			markText = "" + mark+"점으로 줄었어ㅠ";
+			displayMark.style.fontSize = "15px";
+			displayMark.style.color = "black";
+		}else{
+			mark += 100;
+			markText = "좋아 " + mark+ "점";
+			displayMark.style.fontSize = "15px;";
+			displayMark.style.color = "hotpink";	
+		}
+		displayMark.innerHTML = markText;
+		remove(t);
+	}
+
+
+	//지워주기 함수(이건 그냥 복붙 )	
+	function remove(){
+		var t = event.target; //이벤트의 타겟을 t로 지정하고.
+		t.parentNode.removeChild(t); //그 엄마를 찾아서 자식중에 t를 지워라. 
+	}
+
+	//최소값과 최대값 사이의 임의의 숫자를 리턴하는 함수(복붙)
+	function randomBH(min, max) {
+  		min = Math.ceil(min);
+  		max = Math.floor(max);
+  		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	</script>
+</body>
+<footer>
+	Digital publishing / HKNU design / Lee juhyeon
+</footer>
